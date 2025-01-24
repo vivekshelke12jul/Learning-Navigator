@@ -1,9 +1,11 @@
 package com.crio.learnigNavigator.service;
 
 import com.crio.learnigNavigator.exchanges.StudentRequest;
+import com.crio.learnigNavigator.model.Exam;
 import com.crio.learnigNavigator.model.Student;
 import com.crio.learnigNavigator.model.Subject;
 import com.crio.learnigNavigator.repository.StudentRepository;
+import com.crio.learnigNavigator.repository.SubjectRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements StudentService{
@@ -18,6 +21,8 @@ public class StudentServiceImpl implements StudentService{
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    private SubjectRepository subjectRepository;
 
     @Autowired
     private SubjectService subjectService;
@@ -76,6 +81,21 @@ public class StudentServiceImpl implements StudentService{
         Subject subject = subjectService.getSubjectById(subjectId);
 
         student.toggleEnrolledSubject(subject);
+        return studentRepository.save(student);
+    }
+
+    @Override
+    public Student registerForExam(Integer studentId, Integer examId) throws Exception {
+        existsById(studentId);
+        Student student = studentRepository.findById(studentId).get();
+
+        examService.existsById(examId);
+        Exam exam = examService.getExamById(examId);
+        Subject subject = subjectRepository.findByExam(exam);
+        if(!student.getEnrolledSubjects().contains(subject)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Student is not enrolled in the subject of the exam");
+        }
+        student.toggleRegisteredExam(exam);
         return studentRepository.save(student);
     }
 }

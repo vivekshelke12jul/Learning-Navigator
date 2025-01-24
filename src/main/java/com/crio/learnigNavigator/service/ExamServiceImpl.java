@@ -30,14 +30,17 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Exam createExam(ExamRequest examRequest) throws Exception {
-        Exam exam = mapper.map(examRequest, Exam.class);
+        Exam exam = new Exam(examRequest.getName());
+        System.out.println(exam);
+
         Subject subject = subjectService.getSubjectById(examRequest.getSubjectId());
         if(subject.getExam() != null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Subject already has an exam");
         }
-        subject.setExam(exam);
+        Exam savedExam = examRepository.save(exam);
+        subject.setExam(savedExam);
         subjectRepository.save(subject);
-        return examRepository.save(exam);
+        return savedExam;
     }
 
     @Override

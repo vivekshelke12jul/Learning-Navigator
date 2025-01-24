@@ -27,8 +27,9 @@ public class ExamController {
     }
 
     @PostMapping
-    public Exam createExam(@RequestBody ExamRequest examRequest){
-        return examService.createExam(examRequest);
+    public Exam createExam(@RequestBody ExamRequest examRequest) throws Exception{
+        Exam exam = examService.createExam(examRequest);
+        return exam;
     }
 
     @PutMapping("/{id}")

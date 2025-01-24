@@ -14,4 +14,6 @@ public interface StudentService {
     public void deleteStudent(Integer studentId) throws Exception;
 
     public Student enrolForSubject(Integer studentId, Integer subjectId) throws Exception;
+
+    public Student registerForExam(Integer studentId, Integer examId) throws Exception;
 }

@@ -1,12 +1,14 @@
 package com.crio.learnigNavigator.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Exam {
     @Id
@@ -14,9 +16,10 @@ public class Exam {
     private Integer id;
     private String name;
 
-    // Managed from subject Side
-    // private Subject subject;
-
     // Managed from student Side
     // List<Student> enrolledStudents
+
+    public Exam(String name){
+        this.name = name;
+    }
 }

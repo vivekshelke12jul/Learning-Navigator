@@ -1,14 +1,15 @@
 package com.crio.learnigNavigator.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Subject {
 //    Subject ID (Unique Identifier)
@@ -20,7 +21,9 @@ public class Subject {
     private Integer id;
     private String name;
 
-    @OneToOne
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "exam_id")
     private Exam exam;
 
     //    Managed from Student side

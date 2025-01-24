@@ -45,4 +45,10 @@ public class SutudentController {
     public Student enrolForSubject(@PathVariable Integer studentId, @PathVariable Integer subjectId) throws Exception {
         return studentService.enrolForSubject(studentId, subjectId);
     }
+
+    @PutMapping("/{studentId}/register-exam/{examId}")
+    public Student registerForExam(@PathVariable Integer studentId, @PathVariable Integer examId) throws Exception {
+        return studentService.registerForExam(studentId, examId);
+    }
+
 }
